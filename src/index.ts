@@ -1,7 +1,6 @@
 import CMDHandler from "./Handlers/CommandHandler.js";
 import {
   Client,
-  IntentsBitField,
   Partials,
   GatewayIntentBits,
 } from "discord.js";
@@ -9,15 +8,17 @@ import config from "../config.json" assert { type: "json" };
 
 export const client = new Client({
   intents: [
-    IntentsBitField.Flags.GuildIntegrations,
-    IntentsBitField.Flags.GuildMessages,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMembers,
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildBans
   ],
   partials: [Partials.Message],
 });
-const CommandHandler = new CMDHandler(config.prefix);
+export const CommandHandler = new CMDHandler(config.prefix);
 
 client.on("ready", async () => {
   client?.application?.commands.set(CommandHandler.slashCommands);
